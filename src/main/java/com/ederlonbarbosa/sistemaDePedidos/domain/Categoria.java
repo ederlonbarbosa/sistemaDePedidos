@@ -2,6 +2,7 @@ package com.ederlonbarbosa.sistemaDePedidos.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,10 @@ public class Categoria implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ID")
 	private Integer id;
+	
+	@Column(name="NOME")
 	private String nome;
 
 	public Categoria() {
