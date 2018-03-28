@@ -2,19 +2,13 @@ package com.ederlonbarbosa.sistemaDePedidos;
 
 import java.util.Arrays;
 
-import com.ederlonbarbosa.sistemaDePedidos.domain.Cidade;
-import com.ederlonbarbosa.sistemaDePedidos.domain.Estado;
-import com.ederlonbarbosa.sistemaDePedidos.repositories.CidadeRepository;
-import com.ederlonbarbosa.sistemaDePedidos.repositories.EstadoRepository;
+import com.ederlonbarbosa.sistemaDePedidos.domain.*;
+import com.ederlonbarbosa.sistemaDePedidos.domain.enums.TipoCliente;
+import com.ederlonbarbosa.sistemaDePedidos.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.ederlonbarbosa.sistemaDePedidos.domain.Categoria;
-import com.ederlonbarbosa.sistemaDePedidos.domain.Produto;
-import com.ederlonbarbosa.sistemaDePedidos.repositories.CategoriaRepository;
-import com.ederlonbarbosa.sistemaDePedidos.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class SistemaDePedidosApplication implements CommandLineRunner {
@@ -30,6 +24,12 @@ public class SistemaDePedidosApplication implements CommandLineRunner {
 
     @Autowired
     private CidadeRepository cidadeRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SistemaDePedidosApplication.class, args);
@@ -66,5 +66,17 @@ public class SistemaDePedidosApplication implements CommandLineRunner {
 
         estadoRepository.saveAll(Arrays.asList(minasGerais, saoPaulo));
         cidadeRepository.saveAll(Arrays.asList(uberlandia, cidadeSaoPaulo, campinas));
+
+        Cliente mariaSilva = new Cliente("Maria Silva", "maria@gmail.com", "123456789", TipoCliente.PESSOA_FISICA);
+
+        mariaSilva.getTelefones().addAll(Arrays.asList("1234-5678", "2345-6789"));
+
+        Endereco enderecoRuaDasFlores = new Endereco("Rua das Flores", "123", "Apto 231", "Flores Bonitas", "12334-234", mariaSilva, uberlandia);
+        Endereco enderecoAvenidaMatos = new Endereco("Avenida Matos", "143", "Apto 121", "Centro", "53456-564", mariaSilva, cidadeSaoPaulo);
+
+        mariaSilva.getEnderecos().addAll(Arrays.asList(enderecoRuaDasFlores, enderecoAvenidaMatos));
+
+        clienteRepository.save(mariaSilva);
+        enderecoRepository.saveAll(Arrays.asList(enderecoRuaDasFlores, enderecoAvenidaMatos));
     }
 }
