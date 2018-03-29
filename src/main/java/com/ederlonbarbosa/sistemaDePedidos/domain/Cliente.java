@@ -24,6 +24,9 @@ public class Cliente implements Serializable {
     @CollectionTable(name = "TELEFONE")
     private Set<String> telefones = new HashSet<>();
 
+    public Cliente() {
+    }
+
     public Cliente(String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
         this.nome = nome;
         this.email = email;
