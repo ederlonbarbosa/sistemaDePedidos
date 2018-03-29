@@ -1,14 +1,15 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain.enums;
 
-public enum TipoCliente {
+public enum StatusPagamento {
 
-    PESSOA_FISICA(1, "Pessoa Física"),
-    PESSOA_JURIDICA(2, "Pessoa Jurídica");
+    PENDENTE(1, "Pendente"),
+    QUITADO(2, "Quitado"),
+    CANCELADO(3, "Cancelado");
 
     private int codigo;
     private String descricao;
 
-    TipoCliente(int codigo, String descricao) {
+    StatusPagamento(int codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
@@ -21,14 +22,14 @@ public enum TipoCliente {
         return descricao;
     }
 
-    public static TipoCliente getTipoClientePorCodigo(Integer codigo) {
+    public static StatusPagamento getStatusPagamentoPorCodigo(Integer codigo) {
         if (codigo == null) {
             return null;
         }
 
-        for (TipoCliente tipoCliente : TipoCliente.values()) {
-            if (codigo.equals(tipoCliente.getCodigo())) {
-                return tipoCliente;
+        for (StatusPagamento statusPagamento : StatusPagamento.values()) {
+            if (codigo.equals(statusPagamento.getCodigo())) {
+                return statusPagamento;
             }
         }
         throw new IllegalArgumentException(String.format("O código %s é inválido!", codigo));
