@@ -1,8 +1,10 @@
 package com.ederlonbarbosa.sistemaDePedidos;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import com.ederlonbarbosa.sistemaDePedidos.domain.*;
+import com.ederlonbarbosa.sistemaDePedidos.domain.enums.StatusPagamento;
 import com.ederlonbarbosa.sistemaDePedidos.domain.enums.TipoCliente;
 import com.ederlonbarbosa.sistemaDePedidos.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +33,20 @@ public class SistemaDePedidosApplication implements CommandLineRunner {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(SistemaDePedidosApplication.class, args);
     }
 
     @Override
     public void run(String... args){
+
+        // CATEGORIA E PRODUTO
         Categoria informatica = new Categoria("Informática");
         Categoria escritorio = new Categoria("Escritório");
 
@@ -54,6 +64,7 @@ public class SistemaDePedidosApplication implements CommandLineRunner {
         categoriaRepository.saveAll(Arrays.asList(informatica, escritorio));
         produtoRepository.saveAll(Arrays.asList(computador, impressora, mouse));
 
+        // ESTADO E CIDADE
         Estado minasGerais = new Estado("Minas Gerais");
         Estado saoPaulo = new Estado("São Paulo");
 
@@ -67,6 +78,7 @@ public class SistemaDePedidosApplication implements CommandLineRunner {
         estadoRepository.saveAll(Arrays.asList(minasGerais, saoPaulo));
         cidadeRepository.saveAll(Arrays.asList(uberlandia, cidadeSaoPaulo, campinas));
 
+        // CLIENTE E ENDERECO
         Cliente mariaSilva = new Cliente("Maria Silva", "maria@gmail.com", "123456789", TipoCliente.PESSOA_FISICA);
 
         mariaSilva.getTelefones().addAll(Arrays.asList("1234-5678", "2345-6789"));
@@ -78,5 +90,23 @@ public class SistemaDePedidosApplication implements CommandLineRunner {
 
         clienteRepository.save(mariaSilva);
         enderecoRepository.saveAll(Arrays.asList(enderecoRuaDasFlores, enderecoAvenidaMatos));
+
+        // PEDIDO E PAGAMENTO
+        Pedido primeiroPedido = new Pedido(new Date(), mariaSilva, enderecoAvenidaMatos);
+        Pedido segundoPedido = new Pedido(new Date(), mariaSilva, enderecoRuaDasFlores);
+
+        Pagamento pagamentoComCartao = new PagamentoComCartao(StatusPagamento.QUITADO, primeiroPedido, 6);
+        primeiroPedido.setPagamento(pagamentoComCartao);
+
+        Pagamento pagamentoComBoleto = new PagamentoComBoleto(StatusPagamento.PENDENTE, segundoPedido, new Date(), new Date());
+        segundoPedido.setPagamento(pagamentoComBoleto);
+
+        mariaSilva.getPedidos().addAll(Arrays.asList(primeiroPedido, segundoPedido));
+
+        pedidoRepository.saveAll(Arrays.asList(primeiroPedido, segundoPedido));
+        pagamentoRepository.saveAll(Arrays.asList(pagamentoComBoleto, pagamentoComCartao));
+
+        Pagamento p = new PagamentoComBoleto();
+
     }
 }
