@@ -1,12 +1,13 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ederlonbarbosa.sistemaDePedidos.core.BaseEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Cidade {
+public class Cidade extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain;
 
+import com.ederlonbarbosa.sistemaDePedidos.core.BaseEntity;
 import com.ederlonbarbosa.sistemaDePedidos.domain.enums.StatusPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Pagamento implements Serializable {
+public abstract class Pagamento extends BaseEntity implements Serializable {
 
     @Id
     private Long id;

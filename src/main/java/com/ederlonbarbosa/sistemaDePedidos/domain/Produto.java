@@ -1,5 +1,6 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain;
 
+import com.ederlonbarbosa.sistemaDePedidos.core.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Produto implements Serializable {
+public class Produto extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

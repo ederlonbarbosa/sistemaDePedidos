@@ -1,5 +1,6 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain;
 
+import com.ederlonbarbosa.sistemaDePedidos.core.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Pedido implements Serializable {
+public class Pedido extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

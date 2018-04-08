@@ -1,17 +1,16 @@
 package com.ederlonbarbosa.sistemaDePedidos.core;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.Optional;
-
+import com.ederlonbarbosa.sistemaDePedidos.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ederlonbarbosa.sistemaDePedidos.services.exception.ObjectNotFoundException;
+import java.lang.reflect.ParameterizedType;
+import java.util.Optional;
 
 public abstract class AbstractService<T> {
 
 	@Autowired
-	JpaRepository<T, Long> repository;
+	private JpaRepository<T, Long> repository;
 
 	@SuppressWarnings("unchecked")
 	public T getById(Long id) {
@@ -23,4 +22,13 @@ public abstract class AbstractService<T> {
 		});
 	}
 
+	public T create(T t){
+		T object = null;
+		try{
+			object = repository.save(t);
+		}catch (Exception e){
+			new Exception("Erro ao tentar salvar");
+		}
+		return object;
+	}
 }

@@ -1,5 +1,6 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain;
 
+import com.ederlonbarbosa.sistemaDePedidos.core.BaseEntity;
 import com.ederlonbarbosa.sistemaDePedidos.domain.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -8,7 +9,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Entity
-public class Cliente implements Serializable {
+public class Cliente extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
