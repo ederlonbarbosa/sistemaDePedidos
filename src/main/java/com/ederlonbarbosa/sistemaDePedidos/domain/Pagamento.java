@@ -1,6 +1,7 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain;
 
 import com.ederlonbarbosa.sistemaDePedidos.domain.enums.StatusPagamento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public abstract class Pagamento implements Serializable {
     private Long id;
     private Integer statusPagamento;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "ID_PEDIDO")
     @MapsId
