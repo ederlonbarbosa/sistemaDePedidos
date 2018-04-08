@@ -1,8 +1,5 @@
 package com.ederlonbarbosa.sistemaDePedidos;
 
-import java.util.Arrays;
-import java.util.Date;
-
 import com.ederlonbarbosa.sistemaDePedidos.domain.*;
 import com.ederlonbarbosa.sistemaDePedidos.domain.enums.StatusPagamento;
 import com.ederlonbarbosa.sistemaDePedidos.domain.enums.TipoCliente;
@@ -11,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Arrays;
+import java.util.Date;
 
 @SpringBootApplication
 public class SistemaDePedidosApplication implements CommandLineRunner {
@@ -39,12 +39,15 @@ public class SistemaDePedidosApplication implements CommandLineRunner {
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(SistemaDePedidosApplication.class, args);
     }
 
     @Override
-    public void run(String... args){
+    public void run(String... args) {
 
         // CATEGORIA E PRODUTO
         Categoria informatica = new Categoria("Informática");
@@ -106,7 +109,18 @@ public class SistemaDePedidosApplication implements CommandLineRunner {
         pedidoRepository.saveAll(Arrays.asList(primeiroPedido, segundoPedido));
         pagamentoRepository.saveAll(Arrays.asList(pagamentoComBoleto, pagamentoComCartao));
 
-        Pagamento p = new PagamentoComBoleto();
+        // ITEM PEDIDO
+        ItemPedido itemPedidoComputador = new ItemPedido(primeiroPedido, computador, 0.00, 1, 2000.00);
+        ItemPedido itemPedidoImpressora = new ItemPedido(primeiroPedido, impressora, 0.00, 2, 80.00);
+        ItemPedido itemPedidoMouse = new ItemPedido(segundoPedido, mouse, 100.00, 1, 800.00);
 
+        primeiroPedido.getItemPedidos().addAll(Arrays.asList(itemPedidoComputador, itemPedidoImpressora));
+        segundoPedido.getItemPedidos().add(itemPedidoMouse);
+
+        computador.getItemPedidos().add(itemPedidoComputador);
+        impressora.getItemPedidos().add(itemPedidoImpressora);
+        mouse.getItemPedidos().add(itemPedidoMouse);
+
+        itemPedidoRepository.saveAll(Arrays.asList(itemPedidoComputador, itemPedidoImpressora, itemPedidoMouse));
     }
 }
