@@ -3,7 +3,9 @@ package com.ederlonbarbosa.sistemaDePedidos.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Pedido implements Serializable {
@@ -24,6 +26,9 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "ID_ENDERECO_DE_ENTREGA")
     private Endereco enderecoDeEntrega;
 
+    @OneToMany(mappedBy = "itemPedidoPK.pedido")
+    private Set<ItemPedido> itemPedidos = new HashSet<>();
+
     public Pedido(Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
         this.instante = instante;
         this.cliente = cliente;
@@ -31,6 +36,14 @@ public class Pedido implements Serializable {
     }
 
     public Pedido() {
+    }
+
+    public Set<ItemPedido> getItemPedidos() {
+        return itemPedidos;
+    }
+
+    public void setItemPedidos(Set<ItemPedido> itemPedidos) {
+        this.itemPedidos = itemPedidos;
     }
 
     public Long getId() {

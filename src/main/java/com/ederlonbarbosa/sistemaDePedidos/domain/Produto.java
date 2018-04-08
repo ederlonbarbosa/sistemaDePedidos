@@ -1,19 +1,13 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Set;
 
 @Entity
 public class Produto implements Serializable {
@@ -33,11 +27,15 @@ public class Produto implements Serializable {
 	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
-		name = "PRODUTO_CATEGORIA", 
-		joinColumns = @JoinColumn(name="ID_PRODUTO"), 
+		name = "PRODUTO_CATEGORIA",
+		joinColumns = @JoinColumn(name="ID_PRODUTO"),
 		inverseJoinColumns = @JoinColumn(name = "ID_CATEGORIA")
 	)
 	private List<Categoria> categorias = new ArrayList<>();
+
+	@OneToMany(mappedBy = "itemPedidoPK.produto")
+	private Set<ItemPedido> itemPedidos = new HashSet<>();
+
 
 	public Produto() {
 	}
@@ -46,6 +44,26 @@ public class Produto implements Serializable {
 		super();
 		this.nome = nome;
 		this.preco = preco;
+	}
+
+	public List<Pedido> getPedidos(){
+		List<Pedido> pedidos = new ArrayList<>();
+		for (ItemPedido itemPedido : itemPedidos){
+			pedidos.add(itemPedido.getPedido());
+		}
+		return  pedidos;
+	}
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public Set<ItemPedido> getItemPedidos() {
+		return itemPedidos;
+	}
+
+	public void setItemPedidos(Set<ItemPedido> itemPedidos) {
+		this.itemPedidos = itemPedidos;
 	}
 
 	public Long getId() {
