@@ -1,15 +1,18 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain;
 
 import com.ederlonbarbosa.sistemaDePedidos.domain.enums.StatusPagamento;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.Entity;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 public class PagamentoComBoleto extends Pagamento{
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataVencimento;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataPagamento;
 
     public PagamentoComBoleto() {

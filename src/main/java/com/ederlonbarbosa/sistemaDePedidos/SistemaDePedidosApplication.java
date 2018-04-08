@@ -101,7 +101,7 @@ public class SistemaDePedidosApplication implements CommandLineRunner {
         Pagamento pagamentoComCartao = new PagamentoComCartao(StatusPagamento.QUITADO, primeiroPedido, 6);
         primeiroPedido.setPagamento(pagamentoComCartao);
 
-        Pagamento pagamentoComBoleto = new PagamentoComBoleto(StatusPagamento.PENDENTE, segundoPedido, new Date(), new Date());
+        Pagamento pagamentoComBoleto = new PagamentoComBoleto(StatusPagamento.PENDENTE, segundoPedido, new Date(), null);
         segundoPedido.setPagamento(pagamentoComBoleto);
 
         mariaSilva.getPedidos().addAll(Arrays.asList(primeiroPedido, segundoPedido));

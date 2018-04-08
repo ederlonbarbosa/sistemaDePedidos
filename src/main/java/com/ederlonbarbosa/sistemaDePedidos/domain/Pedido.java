@@ -1,5 +1,7 @@
 package com.ederlonbarbosa.sistemaDePedidos.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +15,9 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date instante;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private Date dataDoPedido;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
@@ -30,7 +34,7 @@ public class Pedido implements Serializable {
     private Set<ItemPedido> itemPedidos = new HashSet<>();
 
     public Pedido(Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
-        this.instante = instante;
+        this.dataDoPedido = instante;
         this.cliente = cliente;
         this.enderecoDeEntrega = enderecoDeEntrega;
     }
@@ -54,12 +58,12 @@ public class Pedido implements Serializable {
         this.id = id;
     }
 
-    public Date getInstante() {
-        return instante;
+    public Date getDataDoPedido() {
+        return dataDoPedido;
     }
 
-    public void setInstante(Date instante) {
-        this.instante = instante;
+    public void setDataDoPedido(Date dataDoPedido) {
+        this.dataDoPedido = dataDoPedido;
     }
 
     public Pagamento getPagamento() {
